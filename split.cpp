@@ -16,8 +16,33 @@ the function below should be the only one in this file.
 
 void split(Node*& in, Node*& odds, Node*& evens)
 {
-  /* Add code here */
-// WRITE YOUR CODE HERE
+  //base case - empty input
+  if(in == nullptr){
+    odds = nullptr;
+    evens = nullptr;
+    return;
+  }
+
+  //recursive case
+  Node *current = in; //current node
+  Node* remainder = in->next; //remainder
+  current->next = nullptr; // detach
+
+  Node* subOdds = nullptr;
+  Node* subEvens = nullptr;
+  split(remainder, subOdds, subEvens); //recursive
+  
+  if(current->value % 2 != 0){ //odd node
+    current->next = subOdds;
+    odds = current;
+    evens = subEvens;
+  } else { //even node
+    current->next = subEvens;
+    evens = current;
+    odds = subOdds;
+  }
+
+  in = nullptr; //clear original list
 }
 
 /* If you needed a helper function, write it here */
